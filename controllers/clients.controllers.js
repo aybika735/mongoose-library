@@ -1,5 +1,6 @@
 const Client = require("../models/Client.model");
 const Book = require("../models/Book.model");
+const mongoose = require("mongoose");
 
 module.exports.clientscontroller = {
   createClient: async function (req, res) {
@@ -56,10 +57,10 @@ module.exports.clientscontroller = {
   
   returnBook: async (req, res) => {
     try {
-        await Client.findByIdAndUpdate(req.params.id, {
-            $pull: { books: req.params.id }
-        })
-        res.json('giveAway')
+      const giwAway =  await Client.findByIdAndUpdate(req.params.id, {
+            $pull: { books: mongoose.Types.ObjectId(req.params.id) }
+        },{new:true})
+        res.json(giveAway)
     } catch (err) {
         console.log(err);
     }
